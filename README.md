@@ -1,15 +1,15 @@
 ### Project URL
-[https://github.com/alibabacloud-labs/solution-mongodb-multiregion-sync](https://github.com/alibabacloud-labs/solution-mongodb-multiregion-sync)
+[https://github.com/alibabacloud-howto/solution-mongodb-multiregion-sync](https://github.com/alibabacloud-howto/solution-mongodb-multiregion-sync)
 
 
 ### Architecture Overview
 
-![image.png](https://github.com/alibabacloud-labs/solution-mongodb-multiregion-sync/raw/main/images/archi-nocen.png)
+![image.png](https://github.com/alibabacloud-howto/solution-mongodb-multiregion-sync/raw/main/images/archi-nocen.png)
 
 ### Deployment
 #### Terraform
 
-Use this terraform script ([https://github.com/alibabacloud-labs/solution-mongodb-multiregion-sync/blob/main/deployment/terraform/main.tf](https://github.com/alibabacloud-labs/solution-mongodb-multiregion-sync/blob/main/deployment/terraform/non-cen/main.tf)) to provision the resource including VPC, ECS, MongoDB on 2 regions. Later public IP endpoint will be used for MongoShake on ECS to connect the MongoDB on another region.
+Use this terraform script ([https://github.com/alibabacloud-howto/solution-mongodb-multiregion-sync/blob/main/deployment/terraform/main.tf](https://github.com/alibabacloud-howto/solution-mongodb-multiregion-sync/blob/main/deployment/terraform/non-cen/main.tf)) to provision the resource including VPC, ECS, MongoDB on 2 regions. Later public IP endpoint will be used for MongoShake on ECS to connect the MongoDB on another region.
 
 
 If you do not specify the provider parameters in the environment, please set your Alibaba Cloud access key, secret key here.
@@ -34,19 +34,19 @@ provider "alicloud" {
 #### Step 1: set the security group for source and target MongoDB
 Set the MongoDB in the same security group with the ECS in the same region, which allows ECS accessing the MongoDB for read and write.
 
-![image.png](https://github.com/alibabacloud-labs/solution-mongodb-multiregion-sync/raw/main/images/step1_1.png)
+![image.png](https://github.com/alibabacloud-howto/solution-mongodb-multiregion-sync/raw/main/images/step1_1.png)
 
-![image.png](https://github.com/alibabacloud-labs/solution-mongodb-multiregion-sync/raw/main/images/step1_2.png)
+![image.png](https://github.com/alibabacloud-howto/solution-mongodb-multiregion-sync/raw/main/images/step1_2.png)
 
 #### Step 2: add ECS (in region 1 for MongoShake) public IP to whitelist of target MongoDB
 
-![image.png](https://github.com/alibabacloud-labs/solution-mongodb-multiregion-sync/raw/main/images/step2_1.png)
+![image.png](https://github.com/alibabacloud-howto/solution-mongodb-multiregion-sync/raw/main/images/step2_1.png)
 
-![image.png](https://github.com/alibabacloud-labs/solution-mongodb-multiregion-sync/raw/main/images/step2_2.png)
+![image.png](https://github.com/alibabacloud-howto/solution-mongodb-multiregion-sync/raw/main/images/step2_2.png)
 
 #### Step 3: apply target MongoDB public IP endpoint
 
-![image.png](https://github.com/alibabacloud-labs/solution-mongodb-multiregion-sync/raw/main/images/step3.png)
+![image.png](https://github.com/alibabacloud-howto/solution-mongodb-multiregion-sync/raw/main/images/step3.png)
 
 Copy the connection URL for later MongoShake setting, such as (Please replace the "****" with the provisioned password, here in this tutorial, it is "N1cetest")
 
@@ -96,9 +96,9 @@ Now you can run the sample python program to check with the MongoDB one-way sync
 
 | Source code | Description | Source code file URL |
 | --- | --- | --- |
-| mongodb_insert_source.py | MongoDB writer run on ECS in region 1. It will continuously insert document data into source MongoDB. | [https://github.com/alibabacloud-labs/solution-mongodb-multiregion-sync/raw/main/source/mongodb_insert_source.py](https://github.com/alibabacloud-labs/solution-mongodb-multiregion-sync/raw/main/source/mongodb_insert_source.py) |
-| mongodb_read_source.py | MongoDB reader run on ECS in region 1. It will continuously read document data from source MongoDB. | [https://github.com/alibabacloud-labs/solution-mongodb-multiregion-sync/raw/main/source/mongodb_read_source.py](https://github.com/alibabacloud-labs/solution-mongodb-multiregion-sync/raw/main/source/mongodb_read_source.py) |
-| mongodb_read_target.py | MongoDB reader run on ECS in region 2. It will continuously read document data from target MongoDB. | [https://github.com/alibabacloud-labs/solution-mongodb-multiregion-sync/raw/main/source/mongodb_read_target.py](https://github.com/alibabacloud-labs/solution-mongodb-multiregion-sync/raw/main/source/mongodb_read_target.py) |
+| mongodb_insert_source.py | MongoDB writer run on ECS in region 1. It will continuously insert document data into source MongoDB. | [https://github.com/alibabacloud-howto/solution-mongodb-multiregion-sync/raw/main/source/mongodb_insert_source.py](https://github.com/alibabacloud-howto/solution-mongodb-multiregion-sync/raw/main/source/mongodb_insert_source.py) |
+| mongodb_read_source.py | MongoDB reader run on ECS in region 1. It will continuously read document data from source MongoDB. | [https://github.com/alibabacloud-howto/solution-mongodb-multiregion-sync/raw/main/source/mongodb_read_source.py](https://github.com/alibabacloud-howto/solution-mongodb-multiregion-sync/raw/main/source/mongodb_read_source.py) |
+| mongodb_read_target.py | MongoDB reader run on ECS in region 2. It will continuously read document data from target MongoDB. | [https://github.com/alibabacloud-howto/solution-mongodb-multiregion-sync/raw/main/source/mongodb_read_target.py](https://github.com/alibabacloud-howto/solution-mongodb-multiregion-sync/raw/main/source/mongodb_read_target.py) |
 
 
 First, log on both ECS in region 1 and region 2, run the following command to install pymongo python module.
@@ -110,7 +110,7 @@ pip install pymongo
 On the ECS in region 2, log on via SSH, download the target mongodb reader script.
 
 ```bash
-wget https://github.com/alibabacloud-labs/solution-mongodb-multiregion-sync/raw/main/source/mongodb_read_target.py
+wget https://github.com/alibabacloud-howto/solution-mongodb-multiregion-sync/raw/main/source/mongodb_read_target.py
 ```
 
 Within the source code, modify the MongoDB URL to replace with the target MongoDB VPC URL accordingly:
@@ -134,7 +134,7 @@ python mongodb_read_target.py
 On the ECS in region 1, log on via SSH, download the source mongodb writer script.
 
 ```bash
-wget https://github.com/alibabacloud-labs/solution-mongodb-multiregion-sync/raw/main/source/mongodb_insert_source.py
+wget https://github.com/alibabacloud-howto/solution-mongodb-multiregion-sync/raw/main/source/mongodb_insert_source.py
 ```
 
 Within the source code, modify the MongoDB URL accordingly:
@@ -156,4 +156,4 @@ python mongodb_insert_source.py
 
 Then on ECS in region 1, you will see the MongoDB writer writes the document data into the source MongoDB. While on ECS in region 2, you will see the MongoDB reader reads the newly synchronized data on the target MongoDB.
 
-![image.png](https://github.com/alibabacloud-labs/solution-mongodb-multiregion-sync/raw/main/images/step5.png)
+![image.png](https://github.com/alibabacloud-howto/solution-mongodb-multiregion-sync/raw/main/images/step5.png)
