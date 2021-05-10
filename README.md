@@ -9,7 +9,7 @@
 ### Deployment
 #### Terraform
 
-Use this terraform script ([https://github.com/alibabacloud-howto/solution-mongodb-multiregion-sync/blob/main/deployment/terraform/main.tf](https://github.com/alibabacloud-howto/solution-mongodb-multiregion-sync/blob/main/deployment/terraform/non-cen/main.tf)) to provision the resource including VPC, ECS, MongoDB on 2 regions. Later public IP endpoint will be used for MongoShake on ECS to connect the MongoDB on another region.
+Use this terraform script ([https://github.com/alibabacloud-howto/solution-mongodb-multiregion-sync/blob/main/deployment/terraform/main.tf](https://github.com/alibabacloud-howto/solution-mongodb-multiregion-sync/blob/main/deployment/terraform/main.tf)) to provision the resource including VPC, ECS, MongoDB on 2 regions. Later public IP endpoint will be used for MongoShake on ECS to connect the MongoDB on another region.
 
 
 If you do not specify the provider parameters in the environment, please set your Alibaba Cloud access key, secret key here.
